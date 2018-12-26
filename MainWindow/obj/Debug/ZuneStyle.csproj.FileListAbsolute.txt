@@ -15,7 +15,6 @@ C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\Zu
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\bin\Debug\ZuneLikeWindow.exe.config
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\bin\Debug\ZuneLikeWindow.exe
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\bin\Debug\ZuneLikeWindow.pdb
-C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\ZuneStyle.csprojAssemblyReference.cache
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\Views\MainWindow.baml
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\Views\MainWindow.g.cs
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\App.g.cs
@@ -26,3 +25,4 @@ C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\ZuneStyle.csproj.Ge
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\ZuneStyle.csproj.CoreCompileInputs.cache
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\ZuneLikeWindow.exe
 C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\ZuneLikeWindow.pdb
+C:\Users\flauz\Documents\GameCreateTool\MainWindow\obj\Debug\ZuneStyle.csprojAssemblyReference.cache

@@ -46,5 +46,10 @@ namespace ZuneLikeWindow.Views
         {
             this.Close();
         }
+
+        private void ToolListMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.toolListScroller.ScrollToHorizontalOffset(this.toolListScroller.HorizontalOffset);
+        }
     }
 }
