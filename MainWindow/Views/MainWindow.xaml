@@ -160,6 +160,7 @@
                 </StackPanel>
                 <Frame Width="750" Height="550" Margin="15, 0, 0, 60"></Frame>
             </StackPanel>
+            <!--ここまで-->
             <Border  Width="1280" Height="60" BorderBrush="Gray" BorderThickness="1" Opacity="0.8" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="Azure">
                 <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
                     <StackPanel Orientation="Horizontal" Width="1280" HorizontalAlignment="Center" VerticalAlignment="Center">
