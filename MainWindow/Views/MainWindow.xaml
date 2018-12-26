@@ -125,9 +125,12 @@
                 <Button Content="r"
 						Style="{DynamicResource CaptionButtonStyleKey}" Click="CloseButtonClick" Foreground="#FF00F1FF"/>
             </StackPanel>
+            <StackPanel Margin="0, 60, 0, 0">
+                <Frame Background="White" Width="100" Height="400" Margin="10, 0, 0, 10"></Frame>
+            </StackPanel>
             <Border  Width="1280" Height="60" BorderBrush="Gray" BorderThickness="1" Opacity="0.8" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="Azure">
-                <ScrollViewer HorizontalScrollBarVisibility="Visible">
-                    <StackPanel Orientation="Horizontal" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                    <StackPanel Orientation="Horizontal" Width="1280" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Width="50" Height="50" Margin="7,0" Background="LightSkyBlue"></StackPanel>
                         <StackPanel Width="50" Height="50" Margin="7,0" Background="LightSkyBlue"></StackPanel>
                         <StackPanel Width="50" Height="50" Margin="7,0" Background="LightSkyBlue"></StackPanel>
