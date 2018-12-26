@@ -1,0 +1,14 @@
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\bin\Debug\ZuneLikeWindow.exe.config
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\bin\Debug\ZuneLikeWindow.exe
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\bin\Debug\ZuneLikeWindow.pdb
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\Views\MainWindow.baml
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\Views\MainWindow.g.cs
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\App.g.cs
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\ZuneLikeWindow_MarkupCompile.cache
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\ZuneLikeWindow.g.resources
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\ZuneLikeWindow.Properties.Resources.resources
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\ZuneStyle.csproj.GenerateResource.cache
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\ZuneStyle.csproj.CoreCompileInputs.cache
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\ZuneLikeWindow.exe
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\ZuneLikeWindow.pdb
+C:\Users\flauz\Desktop\MetroRadiance-develop\samples\ZuneLikeWindow\obj\Debug\ZuneStyle.csprojAssemblyReference.cache
