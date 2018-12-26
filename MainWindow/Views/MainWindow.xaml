@@ -126,6 +126,7 @@
                 <Button Content="r"
 						Style="{DynamicResource CaptionButtonStyleKey}" Click="CloseButtonClick" Foreground="#FF00F1FF"/>
             </StackPanel>
+            <!--パネル作成で微調整行った数値-->
             <StackPanel Margin="0, 60, 0, 0" Orientation="Horizontal">
                 <StackPanel Width ="400" Height="550" Margin="45,0,20,60" HorizontalAlignment="Left" Orientation="Vertical">
                     <TextBlock FontSize="24" Foreground="#FFFAFAFA">= Terrain information =</TextBlock>
