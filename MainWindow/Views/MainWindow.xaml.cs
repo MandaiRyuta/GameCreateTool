@@ -25,7 +25,32 @@ namespace ZuneLikeWindow.Views
 			this.InitializeComponent();
 
 			this.MouseLeftButtonDown += (sender, e) => this.DragMove();
-		}
+
+            CppToCS.Interface hoge = null;
+            //var asm = System.Reflection.Assembly.LoadFrom("../../TerrainCreater.dll");
+            var asm = System.Reflection.Assembly.LoadFrom("../../CppMain.dll");
+
+            foreach (var t in asm.GetTypes())
+            {
+                if (t.IsInterface) continue;
+                hoge = Activator.CreateInstance(t) as CppToCS.Interface;
+                if (hoge != null)
+                {
+                    break;
+                }
+            }
+
+            if (hoge != null)
+            {
+                //this.ToolArea.Children.Add(hoge);
+                byte[] n = { 0, 3, 5 };
+                hoge.ProcessCommand(n, 3);
+            }
+            else
+            {
+
+            }
+        }
 
         private void HideButtonClick(object sender, RoutedEventArgs e)
         {
