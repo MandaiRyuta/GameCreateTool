@@ -131,8 +131,7 @@
                 <local:CloseTab></local:CloseTab>
             </StackPanel>
             <StackPanel x:Name="ToolArea" Margin="0, 60, 0, 0" Orientation="Horizontal">
-            
-            </StackPanel>
+      </StackPanel>
             <Border Margin="10" Width="1160" Height="60" BorderBrush="Gray" BorderThickness="1" Opacity="0.8" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="Azure">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Width="50" Height="50" Margin="7,0" Background="LightSkyBlue"></StackPanel>

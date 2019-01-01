@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +24,7 @@ namespace ZuneLikeWindow
     public partial class CloseTabItem : UserControl
     {
         private CloseTab parent;
-        private StackPanel child;
+        //private StackPanel child;
 
         public CloseTabItem(CloseTab _parent, string name = "New Tab")
         {
@@ -32,6 +33,8 @@ namespace ZuneLikeWindow
             parent = _parent;
 
             tabText.Text = name;
+
+
         }
 
         private void RemoveTab(object sender, RoutedEventArgs e)
