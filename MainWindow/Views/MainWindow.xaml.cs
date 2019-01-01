@@ -31,7 +31,7 @@ namespace ZuneLikeWindow.Views
 
         [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
         private extern static void Run();
-
+        
         DispatcherTimer dispatcherTimer;
 
         public MainWindow()
@@ -40,14 +40,14 @@ namespace ZuneLikeWindow.Views
 
 			this.MouseLeftButtonDown += (sender, e) => this.DragMove();
 
-            CppToCS.Interface hoge = null;
+           UIElement hoge = null;
             //var asm = System.Reflection.Assembly.LoadFrom("../../TerrainCreater.dll");
-            var asm = System.Reflection.Assembly.LoadFrom("../../CppMain.dll");
+            var asm = System.Reflection.Assembly.LoadFrom("../../TerrainCreater.dll");
 
             foreach (var t in asm.GetTypes())
             {
                 if (t.IsInterface) continue;
-                hoge = Activator.CreateInstance(t) as CppToCS.Interface;
+                hoge = Activator.CreateInstance(t) as UIElement;
                 if (hoge != null)
                 {
                     break;
@@ -56,7 +56,7 @@ namespace ZuneLikeWindow.Views
 
             if (hoge != null)
             {
-                //this.ToolArea.Children.Add(hoge);
+                this.ToolArea.Children.Add(hoge);
                 //byte[] n = { 0, 3, 5 };
                 //hoge.ProcessCommand(n, 3);
                 //hoge.

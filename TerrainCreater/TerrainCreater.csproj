@@ -134,5 +134,11 @@
   <ItemGroup>
     <Resource Include="test.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DirectX\DirectX.csproj">
+      <Project>{6440821f-0593-4907-a91a-5a18110dd5eb}</Project>
+      <Name>DirectX</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

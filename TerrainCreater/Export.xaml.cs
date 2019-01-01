@@ -23,6 +23,9 @@ namespace TerrainCreater
         public Export()
         {
             InitializeComponent();
+
+            DirectX.MainWindow window = new DirectX.MainWindow();
+            window.Show();
         }
     }
 }
