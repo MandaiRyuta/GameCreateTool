@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="TerrainCreater.Geometry"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:TerrainCreater"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Width="1272" Height="628">
+        <StackPanel Width ="449" Height="550" Margin="45,-120,0,-40.4" HorizontalAlignment="Left" Orientation="Vertical">
+            <StackPanel Margin="0, 60, 0, 0" Orientation="Horizontal">
+                <StackPanel Width="400" Height="550" Margin="45,0,20,60" HorizontalAlignment="Left">
+                    <RadioButton Content="Sphere" Foreground="White" Width="75" Height="15" HorizontalAlignment="Left" Margin="5,5" Name ="SphereRadioButton"  Unchecked="SphereUnchecked" Checked="SphereChecked"/>
+                    <RadioButton Content="Cube" Foreground="White" Width="75" Height="15" HorizontalAlignment="Left" Margin="5,5" Unchecked="CubeUnchecked" Checked="CubeChecked"></RadioButton>
+                    <RadioButton Content="Cylinder" Foreground="White" Width="75" Height="15" HorizontalAlignment="Left" Margin="5,5" Unchecked="CylinderUnchecked" Checked="CylinderChecked"></RadioButton>
+                    <StackPanel Name="SpherePanel" Orientation="Vertical">
+                        <StackPanel>
+                            <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="16"> SphereInfomation</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="75" Height="20" Margin="5,10" HorizontalAlignment="Left" Foreground="White">Diameter</TextBlock>
+                            <xctk:DoubleUpDown Width="50" Height="20" Margin="270,0" DisplayDefaultValueOnEmptyText="True" DefaultValue="10" ValueChanged="SphereDiameterChanged"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="75" Height="20" Margin="5,10" HorizontalAlignment="Left" Foreground="White">Tessellation</TextBlock>
+                            <xctk:IntegerUpDown Width="50" Height="20" Margin="270,0" DisplayDefaultValueOnEmptyText="True" DefaultValue="30" ValueChanged="SphereTessellationChanged"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Name="CubePanel" Orientation="Vertical">
+                        <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="16"> CubeInfomation</TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="75" Height="20" Margin="5,10" HorizontalAlignment="Left" Foreground="White">Width</TextBlock>
+                            <xctk:DoubleUpDown Width="50" Height="20" Margin="270,0" DisplayDefaultValueOnEmptyText="True" DefaultValue="10" ValueChanged="CubeWidthChanged" RenderTransformOrigin="0.512,0.411"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="75" Height="20" Margin="5,10" HorizontalAlignment="Left" Foreground="White">Height</TextBlock>
+                            <xctk:DoubleUpDown Width="50" Height="20" Margin="270,0" DisplayDefaultValueOnEmptyText="True" DefaultValue="10" ValueChanged="CubeHeightChanged"></xctk:DoubleUpDown>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="75" Height="20" Margin="5,10" HorizontalAlignment="Left" Foreground="White">Depth</TextBlock>
+                            <xctk:DoubleUpDown Width="50" Height="20" Margin="270,0" DisplayDefaultValueOnEmptyText="True" DefaultValue="10" ValueChanged="CubeDepthChanged"></xctk:DoubleUpDown>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Name="CylinderPanel" Orientation="Vertical">
+                        <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="16"> CylinderInfomation</TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="75" Height="20" Margin="5,10" HorizontalAlignment="Left" Foreground="White">Height</TextBlock>
+                            <xctk:DoubleUpDown Width="50" Height="20"  Margin="270,0" DisplayDefaultValueOnEmptyText="True" DefaultValue="10" ValueChanged="CylinderHeightChanged"></xctk:DoubleUpDown>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="75" Height="20" Margin="5,10" HorizontalAlignment="Left" Foreground="White">Diameter</TextBlock>
+                            <xctk:DoubleUpDown Width="50" Height="20" Margin="270,0" DisplayDefaultValueOnEmptyText="True" DefaultValue="5" ValueChanged="CylinderDiameterChanged"></xctk:DoubleUpDown>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="75" Height="20" Margin="5,10" HorizontalAlignment="Left" Foreground="White">Tessellation</TextBlock>
+                            <xctk:IntegerUpDown Width="50" Height="20" Margin="270,0" DisplayDefaultValueOnEmptyText="True" DefaultValue="28" ValueChanged="CylinderTessellationChanged"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <Frame Width="750" Height="550" Margin="450, 40, 0, 60"></Frame>
+        <Image Margin="211,477,944,37" Source="test.ico" Stretch="Fill"/>
+    </Grid>
+</UserControl>

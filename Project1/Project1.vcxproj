@@ -21,13 +21,13 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DAC78559-C596-4910-ACDF-CDD6B7AE1908}</ProjectGuid>
     <RootNamespace>Project1</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -120,7 +120,7 @@
     <ClCompile Include="SeaManager.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="SkyDomeManager.cpp" />
-    <ClCompile Include="ToolObjectManager.cpp" />
+    <ClCompile Include="TerrainManager.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -133,7 +133,7 @@
     <ClInclude Include="directx11Enums.h" />
     <ClInclude Include="directx11Globals.h" />
     <ClInclude Include="resourcePool.h" />
-    <ClInclude Include="ToolObjectManager.h" />
+    <ClInclude Include="TerrainManager.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>

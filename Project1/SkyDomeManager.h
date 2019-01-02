@@ -17,4 +17,5 @@ public:
 	void CreateCylinderCap(IndexCollection & idx_collection, VertexCollection & vtx_collection, const unsigned int & tessellation, const float & height, const float & radius, bool istop);
 private:
 	DirectX11& directx11_;
+	float time_;
 };

@@ -2,6 +2,7 @@
 
 #include "DirectXTex\DirectXTex.h"
 #include "directx11Globals.h"
+#include <iostream>
 
 DirectX11::DirectX11(void)
 {
@@ -384,6 +385,13 @@ void DirectX11::createShader(const ShaderID & shader_id, const std::string & fil
 			CreateConstantBufferFromShader(context_, shader, blob);
 	}
 
+	std::cout << "xxxx" << std::endl;
+
+	if (!shader->vs_)
+	{
+		MessageBoxA(nullptr, "dssfdasf", nullptr, MB_OK);
+	}
+
 	shader_db_.Load(shader_id, shader);
 }
 
@@ -580,7 +588,7 @@ void DirectX11::releaseMesh(const MeshID & mesh_id)
 
 void DirectX11::present(void)
 {
-	swap_chain_->Present(1, 0);
+	swap_chain_->Present(0, 0);
 }
 
 void * DirectX11::getShaderVariable(const ShaderID & shader_id, const std::string & variable_name)

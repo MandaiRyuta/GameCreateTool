@@ -7,37 +7,34 @@
              xmlns:local="clr-namespace:TerrainCreater"
              mc:Ignorable="d">
     <Grid Width="1272" Height="628">
-        <StackPanel Width ="400" Height="300" Margin="25,30" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
+        <StackPanel Width ="400" Height="500" Margin="25,30" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
                 <TextBlock FontSize="24" Foreground="#FFFAFAFA">= Terrain information =</TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width ="75" Height="25" HorizontalAlignment="Left" Margin="10,0" Foreground="White" FontSize="16">Width</TextBlock>
-                    <xctk:IntegerUpDown Width="50" Height="20" Margin="0,10"></xctk:IntegerUpDown>
+                    <xctk:DoubleUpDown Width="50" Height="20" DefaultValue="100" Value="100" ValueChanged="WidthChanged" Margin="0,10"></xctk:DoubleUpDown>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width ="75" Height="25" HorizontalAlignment="Left" Margin="10,0" Foreground="White" FontSize="16">Height</TextBlock>
-                    <xctk:IntegerUpDown Width="50" Height="20" Margin="0,10"></xctk:IntegerUpDown>
+                <xctk:DoubleUpDown Width="50" Height="20" DefaultValue="1" Value="1" ValueChanged="HeightChanged" Margin="0,10"></xctk:DoubleUpDown>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width ="75" Height="25" HorizontalAlignment="Left" Margin="10,0" Foreground="White" FontSize="16">Depth</TextBlock>
-                    <xctk:IntegerUpDown Width="50" Height="20" Margin="0,10"></xctk:IntegerUpDown>
+                <xctk:DoubleUpDown Width="50" Height="20" DefaultValue="100" Value="100" ValueChanged ="DepthChanged" Margin="0,10"></xctk:DoubleUpDown>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Width ="75" Height="20" HorizontalAlignment="Left" Margin="10,0" Foreground="White" FontSize="16">Frequency</TextBlock>
-                    <Slider Width="250" Height="15"></Slider>
-                    <TextBox Width="45" Height="20" Margin="5,10"></TextBox>
+                    <TextBlock Width ="75" Height="25" HorizontalAlignment="Left" Margin="10,0" Foreground="White" FontSize="16">Div_X</TextBlock>
+                <xctk:IntegerUpDown Width="50" Height="20" DefaultValue="100" Value="100" ValueChanged ="Div_XChanged" Margin="0,10"></xctk:IntegerUpDown>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Width ="75" Height="20" HorizontalAlignment="Left" Margin="10,0" Foreground="White" FontSize="16">Octaves</TextBlock>
-                    <Slider Width="250" Height="15"></Slider>
-                    <TextBox Width="45" Height="20" Margin="5,10"></TextBox>
+                    <TextBlock Width ="75" Height="25" HorizontalAlignment="Left" Margin="10,0" Foreground="White" FontSize="16">Div_Y</TextBlock>
+                <xctk:IntegerUpDown Width="50" Height="20" DefaultValue="100" Value="100" ValueChanged ="Div_YChanged" Margin="0,10"></xctk:IntegerUpDown>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Width ="75" Height="20" HorizontalAlignment="Left" Margin="10,0" Foreground="White" FontSize="16">Seed</TextBlock>
-                    <Slider Width="250" Height="15"></Slider>
-                    <TextBox Width="45" Height="20" Margin="5,10"></TextBox>
-                </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                    <TextBlock Width ="75" Height="20" HorizontalAlignment="Left" Margin="10,10" Foreground="White" FontSize="16">Frequency</TextBlock>
+                    <Slider Width="250" Height="15" Value="0" Minimum="0" Maximum="20" ValueChanged="Frequency_Changed"></Slider>
+            </StackPanel>
         </StackPanel>
         <Frame Width="750" Height="550" Margin="450, 40, 0, 60"></Frame>
-        <Image Margin="79,335,944,37" Source="test.ico" Stretch="Fill"/>
+        <Image Margin="211,477,944,37" Source="test.ico" Stretch="Fill"/>
     </Grid>
 </UserControl>

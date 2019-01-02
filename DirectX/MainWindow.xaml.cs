@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -29,6 +30,42 @@ namespace DirectX
         [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
         private extern static void Run();
 
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CreateTerrain(uint div_x, uint div_y, float frequency, float height, float size_x, float size_y);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CreateCube(float size_x, float size_y, float size_z);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CreateSphere(float diameter, uint tessellation);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CreateCylinder(float height, float diameter, uint tessellation);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CreateOcean(uint texture_width, uint texture_height, float time, float min_distance, float max_distance, float min_log2tessfactor, float max_log2tessfactor, bool draw_wires, bool draw_normal, bool apply_anglecorrection, bool hold, float size_terrain, uint sqrt_number_of_patchs);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void SetTerrain(uint div_x, uint div_y, float frequency, float height, float size_x, float size_y);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void SetCube(float size_x, float size_y, float size_z);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void SetSphere(float diameter, uint tessellation);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void SetCylinder(float height, float diameter, uint tessellation);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void SetOcean(uint texture_width, uint texture_height, float time, float min_distance, float max_distance, float min_log2tessfactor, float max_log2tessfactor, bool draw_wires, bool draw_normal, bool apply_anglecorrection, bool hold, float size_terrain, uint sqrt_number_of_patchs);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void OceanSetView();
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void DefaultSetView();
+
         private DispatcherTimer dispatcherTimer;
 
         public MainWindow()
@@ -37,9 +74,12 @@ namespace DirectX
             
             this.MouseLeftButtonDown += (sender, e) => this.DragMove();
 
-            Activated += (s, e) => OnActivated();
+            Loaded += (s, e) => OnActivated();
+
+
         }
 
+        
         private void Run(object sender, EventArgs e)
         {
             Run();
@@ -52,10 +92,72 @@ namespace DirectX
             IntPtr handle = source.Handle;
 
             Initialize(handle, 1280, 720);
+
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(Run);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
             dispatcherTimer.Start();
+
+        }
+
+        public void ExCreateTerrain(uint div_x, uint div_y, float frequency, float height, float size_x, float size_y)
+        {
+            CreateTerrain(div_x, div_y, frequency, height, size_x, size_y);
+        }
+
+        public void ExCreateCube(float size_x, float size_y, float size_z)
+        {
+            CreateCube(size_x, size_y, size_z);
+        }
+
+        public void ExCreateSphere(float diameter, uint tessellation)
+        {
+            CreateSphere(diameter, tessellation);
+        }
+
+        public void ExCreateCylinder(float height, float diameter, uint tessellation)
+        {
+            CreateCylinder(height, diameter, tessellation);
+        }
+
+        public void ExCreateOcean(uint texture_width, uint texture_height, float time, float min_distance, float max_distance, float min_log2tessfactor, float max_log2tessfactor, bool draw_wires, bool draw_normal, bool apply_anglecorrection, bool hold, float size_terrain, uint sqrt_number_of_patchs)
+        {
+            CreateOcean(texture_width, texture_height, time, min_distance, max_distance, min_log2tessfactor, max_log2tessfactor, draw_wires, draw_normal, apply_anglecorrection, hold, size_terrain, sqrt_number_of_patchs);
+        }
+
+        public void ExSetTerrain(uint div_x, uint div_y, float frequency, float height, float size_x, float size_y)
+        {
+            SetTerrain(div_x, div_y, frequency, height, size_x, size_y);
+        }
+
+        public void ExSetCube(float size_x, float size_y, float size_z)
+        {
+            SetCube(size_x, size_y, size_z);
+        }
+
+        public void ExSetSphere(float diameter, uint tessellation)
+        {
+            SetSphere(diameter, tessellation);
+        }
+
+        public void ExSetCylinder(float height, float diameter, uint tessellation)
+        {
+            SetCylinder(height, diameter, tessellation);
+        }
+
+        public void ExSetOcean(uint texture_width, uint texture_height, float time, float min_distance, float max_distance, float min_log2tessfactor, float max_log2tessfactor, bool draw_wires, bool draw_normal, bool apply_anglecorrection, bool hold, float size_terrain, uint sqrt_number_of_patchs)
+        {
+            SetOcean(texture_width, texture_height, time, min_distance, max_distance, min_log2tessfactor, max_log2tessfactor, draw_wires, draw_normal, apply_anglecorrection, hold, size_terrain, sqrt_number_of_patchs);
+        }
+
+        public void ExOceanSetView()
+        {
+            OceanSetView();
+        }
+
+        public void ExDefaultSetView()
+        {
+            DefaultSetView();
         }
     }
 }

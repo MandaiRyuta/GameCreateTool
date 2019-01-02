@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -163,7 +164,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Visual Studio 2015\Projects\Project1\Project1.vcxproj">
+    <ProjectReference Include="..\Project1\Project1.vcxproj">
       <Project>{dac78559-c596-4910-acdf-cdd6b7ae1908}</Project>
     </ProjectReference>
   </ItemGroup>

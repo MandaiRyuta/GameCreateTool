@@ -26,12 +26,6 @@ namespace ZuneLikeWindow
 
     public partial class CloseTab : UserControl
     {
-        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void Initialize(IntPtr hwnd, int size_x, int size_y);
-
-        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void Run();
-
         private CloseTabItemCollection tabs;
         public StackPanel child = null;
         private DispatcherTimer dispatcherTimer;
@@ -57,16 +51,9 @@ namespace ZuneLikeWindow
 
             IntPtr handle = source.Handle;
 
-            Initialize(handle, 1280, 720);
             dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(Run);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
             dispatcherTimer.Start();
-        }
-
-        private void Run(object sender, EventArgs e)
-        {
-            Run();
         }
 
         public void RemoveTab(CloseTabItem tab)

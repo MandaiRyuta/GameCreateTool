@@ -229,6 +229,7 @@ void SkyDomeManager::CreateCylinderCap(IndexCollection & idx_collection, VertexC
 SkyDomeManager::SkyDomeManager(DirectX11 & directx11)
 	: directx11_(directx11)
 {
+	time_ = 0.0f;
 }
 
 SkyDomeManager::~SkyDomeManager()
@@ -239,18 +240,17 @@ void SkyDomeManager::initialize()
 {
 	//Cylinder(10.0f, 10.0f, 20);
 	//Sphere(10.0f, 15);
-	Cube({ 10.0f,10.0f,10.0f });
+	//Cube({ 10.0f,10.0f,10.0f });
 }
 
 void SkyDomeManager::Renderer()
 {
-	static float p = 0.0f;
-	math::matrix world = math::matrix::CreateRotationX(p);
+	math::matrix world = math::matrix::CreateRotationX(time_);
 
 	directx11_.setWorld(world);
 	directx11_.setShader(0, ShaderID::Default);
 	directx11_.updatePerMeshConstantBuffer();
 	directx11_.setMesh(MeshID::Default);
 
-	p += 0.004f;
+	time_ += 0.004f;
 }
