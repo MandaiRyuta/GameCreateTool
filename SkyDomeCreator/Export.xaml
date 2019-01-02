@@ -12,8 +12,8 @@
             <StackPanel Margin="0, 60, 0, 0" Orientation="Horizontal">
                 <StackPanel Width="400" Height="550" Margin="45,0,20,60" HorizontalAlignment="Left">
                     <RadioButton Content="Sphere" Foreground="White" Width="75" Height="15" HorizontalAlignment="Left" Margin="5,5" Name ="SphereRadioButton"  Unchecked="SphereUnchecked" Checked="SphereChecked"/>
-                    <RadioButton Content="Cube" Foreground="White" Width="75" Height="15" HorizontalAlignment="Left" Margin="5,5" Unchecked="CubeUnchecked" Checked="CubeChecked"></RadioButton>
-                    <RadioButton Content="Cylinder" Foreground="White" Width="75" Height="15" HorizontalAlignment="Left" Margin="5,5" Unchecked="CylinderUnchecked" Checked="CylinderChecked"></RadioButton>
+                    <RadioButton Content="Cube" Foreground="White" Width="75" Height="15" HorizontalAlignment="Left" Margin="5,5" Name ="CubeRadioButton"  Unchecked="CubeUnchecked" Checked="CubeChecked"></RadioButton>
+                    <RadioButton Content="Cylinder" Foreground="White" Width="75" Height="15" HorizontalAlignment="Left" Margin="5,5" Name="CylinderRadioButton" Unchecked="CylinderUnchecked" Checked="CylinderChecked"></RadioButton>
                     <StackPanel Name="SpherePanel" Orientation="Vertical">
                         <StackPanel>
                             <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="16"> SphereInfomation</TextBlock>

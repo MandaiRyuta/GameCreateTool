@@ -84,12 +84,29 @@ namespace DirectX
 
         private void ONUnLoad()
         {
-            if (IsVisible != false) return;
-
-            if (dispatcherTimer != null)
+            if (IsVisible != false)
             {
-                dispatcherTimer.Stop();
-                dispatcherTimer = null;
+                HwndSource source = (HwndSource)HwndSource.FromVisual(this);
+
+                IntPtr handle = source.Handle;
+
+                Initialize(handle, 1280, 720);
+
+                if (dispatcherTimer == null)
+                {
+                    dispatcherTimer = new DispatcherTimer();
+                    dispatcherTimer.Tick += new EventHandler(Run);
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
+                    dispatcherTimer.Start();
+                }
+            }
+            else
+            {
+                if (dispatcherTimer != null)
+                {
+                    dispatcherTimer.Stop();
+                    dispatcherTimer = null;
+                }
             }
         }
 

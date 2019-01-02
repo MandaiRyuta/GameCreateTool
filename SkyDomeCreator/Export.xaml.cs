@@ -50,14 +50,19 @@ namespace SkyDomeCreator
 
         private void OnLoad()
         {
-            this.SpherePanel.Visibility = Visibility.Collapsed;
-            this.CubePanel.Visibility = Visibility.Collapsed;
-            this.CylinderPanel.Visibility = Visibility.Collapsed;
 
             if(window == null)
             {
+                this.SpherePanel.Visibility = Visibility.Collapsed;
+                this.CubePanel.Visibility = Visibility.Collapsed;
+                this.CylinderPanel.Visibility = Visibility.Collapsed;
+                
                 window = new DirectX.MainWindow();
                 window.Owner = Window.GetWindow(this);
+
+                this.SphereRadioButton.IsChecked = true;
+                this.CubeRadioButton.IsChecked = false;
+                this.CylinderRadioButton.IsChecked = false;
 
                 cube_size_x = 10.0f;
                 cube_size_y = 10.0f;
@@ -73,7 +78,12 @@ namespace SkyDomeCreator
             
             window.ExDefaultSetView();
 
-            this.SphereRadioButton.IsChecked = true;
+            if(SphereRadioButton.IsChecked == true)
+                window.ExCreateSphere(sphere_diameter, sphere_tessellation);
+            if (CubeRadioButton.IsChecked == true)
+                window.ExCreateCube(cube_size_x, cube_size_y, cube_size_z);
+            if (CylinderRadioButton.IsChecked == true)
+                window.ExCreateCylinder(cylinder_height, cylinder_diameter, cylinder_tessellatiion);
         }
 
         private void SphereChecked(object sender, RoutedEventArgs e)
