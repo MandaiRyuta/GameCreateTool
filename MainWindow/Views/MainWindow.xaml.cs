@@ -21,39 +21,78 @@ namespace ZuneLikeWindow.Views
 	/// <summary>
 	/// MainWindow.xaml の相互作用ロジック
 	/// </summary>
+    /// 
+    public class ToolInfo
+    {
+        public ToolInfo(Type _type, ImageSource _imgSrc)
+        {
+            type = _type;
+            imgSrc = _imgSrc;
+        }
+
+        public Type type;
+        public ImageSource imgSrc;
+    }
+    
 	public partial class MainWindow : Window
 	{
         DispatcherTimer dispatcherTimer;
+        List<ToolInfo> toolList;
+        CloseTab toolTabs;
 
         public MainWindow()
 		{
 			this.InitializeComponent();
 
 			this.MouseLeftButtonDown += (sender, e) => this.DragMove();
+            
+            this.Loaded += (s, e) => this.OnActivated();
+        }
 
-           UIElement hoge = null;
-            //var asm = System.Reflection.Assembly.LoadFrom("../../TerrainCreater.dll");
-            var asm = System.Reflection.Assembly.LoadFrom("../../TerrainCreater.dll");
+        private void OnActivated()
+        {
+            toolTabs = new CloseTab(ToolArea);
 
-            foreach (var t in asm.GetTypes())
+            this.toolTabArea.Children.Add(toolTabs);
+
+            toolList = new List<ToolInfo>();
+
+            string[] files = System.IO.Directory.GetFiles(@"../../Plugins/", "*.dll", System.IO.SearchOption.AllDirectories);
+            
+            foreach (var file in files)
             {
-                if (t.IsInterface) continue;
-                hoge = Activator.CreateInstance(t) as UIElement;
-                if (hoge != null)
+                var asm = System.Reflection.Assembly.LoadFrom(file);
+
+                foreach (var t in asm.GetTypes())
                 {
-                    break;
+                    if (t.IsInterface) continue;
+                    if (!t.IsSubclassOf(typeof(UserControl))) continue;
+                    UserControl hoge = Activator.CreateInstance(t) as UserControl;
+                    if (hoge != null)
+                    {
+                        var path = file;
+                        var icon = System.Drawing.Icon.ExtractAssociatedIcon(path);
+                        var source = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+                        Image img = new Image();
+                        img.Source = source;
+                        img.Stretch = Stretch.Fill;
+                        ToolIcon ti = new ToolIcon(img);
+                        ti.ImagePanel.Click += (s, e) => RunTool(0);
+                        IconList.Children.Add(ti);
+
+                        toolList.Add(new ToolInfo(t, source));
+
+                        break;
+                    }
                 }
-            }
-
-            if (hoge != null)
-            {
-                this.ToolArea.Children.Add(hoge);
-            }
-            else
-            {
 
             }
+        }
 
+        private void RunTool(int index)
+        {
+            toolTabs.AddTab(Activator.CreateInstance(toolList[index].type) as UserControl, toolList[index].imgSrc);
         }
 
         private void HideButtonClick(object sender, RoutedEventArgs e)
@@ -64,14 +103,6 @@ namespace ZuneLikeWindow.Views
         private void MaximizeButtonClick(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Maximized;
-
-            HwndSource source = (HwndSource)HwndSource.FromVisual(this);
-
-            IntPtr handle = source.Handle;
-
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
-            dispatcherTimer.Start();
         }
 
         private void MinimizeButtonClick(object sender, RoutedEventArgs e)

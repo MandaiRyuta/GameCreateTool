@@ -43,9 +43,12 @@ namespace ZuneLikeWindow
 
             tabs.Add(tab);
             closeableTabs.Children.Add(tab);
+            //CloseTabItem tab = new CloseTabItem(this);
 
             Window window = new Window1();
             window.Show();
+            //tabs.Add(tab);
+            //closeableTabs.Children.Add(tab);
 
             HwndSource source = (HwndSource)HwndSource.FromVisual(window);
 
@@ -54,6 +57,17 @@ namespace ZuneLikeWindow
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
             dispatcherTimer.Start();
+        }
+
+        }
+
+        public void AddTab(UserControl uc, ImageSource imgSrc)
+        {
+            CloseTabItem tab = new CloseTabItem(this, uc, imgSrc);
+        
+            tabs.Add(tab);
+            closeableTabs.Children.Add(tab);
+            tab.Active();
         }
 
         public void RemoveTab(CloseTabItem tab)
