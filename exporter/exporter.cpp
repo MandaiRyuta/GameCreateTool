@@ -15,11 +15,31 @@ DirectX11* directx11;
 TerrainManager* terrain;
 SkyDomeManager* Skydome;
 OceanManager* Ocean;
+
 void Initialize(HWND hwnd, int size_x, int size_y)
 {
 	//window = new Window();
 	
 	//window->Initalize("hoge", size_x, size_y);
+
+	if (directx11)
+		delete directx11;
+
+	if (Skydome)
+	{
+		delete Skydome;
+		Skydome = nullptr;
+	}
+	if (terrain)
+	{
+		delete terrain;
+		terrain = nullptr;
+	}
+	if (Ocean)
+	{
+		delete Ocean;
+		Ocean = nullptr;
+	}
 
 	directx11 = new DirectX11;
 
@@ -35,6 +55,20 @@ void Initialize(HWND hwnd, int size_x, int size_y)
 	directx11->setRasterizer(RasterizerID::WF_CCW);
 	directx11->setViewPort({ ViewPortID::Default });
 	directx11->setEyeposition(math::float3(0.0f, 5.0f, -10.0f));
+
+
+}
+
+void Reset(HWND hwnd, int size_x, int size_y)
+{
+
+	directx11 = new DirectX11;
+
+	directx11->initialize(hwnd, math::float2(size_x, size_y));
+
+	directx11->createRenderTarget(RenderTargetID::Default, DescFormat::BackBuffer, directx11->getSize());
+	directx11->createDepthStencil(DepthStencilID::Default, directx11->getSize());
+	directx11->setRenderTargetAndDepthStencil({ RenderTargetID::Default }, DepthStencilID::Default);
 }
 
 void Run(void)
@@ -49,6 +83,7 @@ void Run(void)
 		terrain->Renderer();
 	if (Ocean != nullptr)
 		Ocean->Renderer();
+
 	directx11->present();
 }
 

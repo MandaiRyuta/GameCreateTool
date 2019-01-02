@@ -28,6 +28,9 @@ namespace DirectX
         private extern static void Initialize(IntPtr hwnd, int size_x, int size_y);
 
         [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void Reset(IntPtr hwnd, int size_x, int size_y);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
         private extern static void Run();
 
         [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -66,7 +69,7 @@ namespace DirectX
         [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
         private extern static void DefaultSetView();
 
-        private DispatcherTimer dispatcherTimer;
+        private DispatcherTimer dispatcherTimer = null;
 
         public MainWindow()
         {
@@ -74,18 +77,31 @@ namespace DirectX
             
             this.MouseLeftButtonDown += (sender, e) => this.DragMove();
 
-            Loaded += (s, e) => OnActivated();
+            Loaded += (s, e) => OnLoad();
 
-
+            IsVisibleChanged += (s, e) => ONUnLoad();
         }
 
-        
+        private void ONUnLoad()
+        {
+            if (IsVisible != false) return;
+
+            if (dispatcherTimer != null)
+            {
+                dispatcherTimer.Stop();
+                dispatcherTimer = null;
+            }
+        }
+
         private void Run(object sender, EventArgs e)
         {
-            Run();
+            if (dispatcherTimer != null)
+            {
+                Run();
+            }
         }
 
-        private void OnActivated()
+        private void OnLoad()
         {
             HwndSource source = (HwndSource)HwndSource.FromVisual(this);
 
@@ -93,11 +109,13 @@ namespace DirectX
 
             Initialize(handle, 1280, 720);
 
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(Run);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
-            dispatcherTimer.Start();
-
+            if (dispatcherTimer == null)
+            {
+                dispatcherTimer = new DispatcherTimer();
+                dispatcherTimer.Tick += new EventHandler(Run);
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
+                dispatcherTimer.Start();
+            }
         }
 
         public void ExCreateTerrain(uint div_x, uint div_y, float frequency, float height, float size_x, float size_y)

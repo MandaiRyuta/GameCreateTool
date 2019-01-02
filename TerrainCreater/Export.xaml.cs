@@ -36,18 +36,30 @@ namespace TerrainCreater
             InitializeComponent();
 
             Loaded += (s, e) => OnLoad();
+
+            Unloaded += (s, e) => OnUnLoad();
+        }
+
+        private void OnUnLoad()
+        {
+            if(window != null)
+                window.Hide();
         }
 
         private void OnLoad()
         {
-            Terrain_div_x = 100;
-            Terrain_div_y = 100;
-            Terrain_Frequency = 0.0f;
-            Terrain_height = 1.0f;
-            Terrain_size_x = 100.0f;
-            Terrain_size_y = 100.0f;
+            if(window == null)
+            {
+                window = new DirectX.MainWindow();
+                window.Owner = Window.GetWindow(this);
 
-            window = new DirectX.MainWindow();
+                Terrain_div_x = 100;
+                Terrain_div_y = 100;
+                Terrain_Frequency = 0.0f;
+                Terrain_height = 1.0f;
+                Terrain_size_x = 100.0f;
+                Terrain_size_y = 100.0f;
+            }
 
             window.Show();
 

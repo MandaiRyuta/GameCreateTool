@@ -38,27 +38,39 @@ namespace SkyDomeCreator
             InitializeComponent();
 
             Loaded += (s, e) => OnLoad();
+
+            Unloaded += (s, e) => OnUnLoad();
+        }
+
+        private void OnUnLoad()
+        {
+            if (window != null)
+                window.Hide();
         }
 
         private void OnLoad()
         {
-            cube_size_x = 10.0f;
-            cube_size_y = 10.0f;
-            cube_size_z = 10.0f;
-            cylinder_diameter = 5.0f;
-            cylinder_height = 10.0f;
-            cylinder_tessellatiion = 28;
-            sphere_diameter = 10.0f;
-            sphere_tessellation = 30;
-
             this.SpherePanel.Visibility = Visibility.Collapsed;
             this.CubePanel.Visibility = Visibility.Collapsed;
             this.CylinderPanel.Visibility = Visibility.Collapsed;
 
-            window = new DirectX.MainWindow();
+            if(window == null)
+            {
+                window = new DirectX.MainWindow();
+                window.Owner = Window.GetWindow(this);
+
+                cube_size_x = 10.0f;
+                cube_size_y = 10.0f;
+                cube_size_z = 10.0f;
+                cylinder_diameter = 5.0f;
+                cylinder_height = 10.0f;
+                cylinder_tessellatiion = 28;
+                sphere_diameter = 10.0f;
+                sphere_tessellation = 30;
+            }
 
             window.Show();
-
+            
             window.ExDefaultSetView();
 
             this.SphereRadioButton.IsChecked = true;

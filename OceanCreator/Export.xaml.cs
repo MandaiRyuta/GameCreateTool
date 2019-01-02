@@ -42,25 +42,38 @@ namespace OceanCreator
             InitializeComponent();
 
             Loaded += (s, e) => OnLoad();
+
+            Unloaded += (s, e) => OnUnLoad();
+        }
+
+        private void OnUnLoad()
+        {
+            if (window != null)
+                window.Hide();
         }
 
         private void OnLoad()
         {
-            textureWidth = 1024;
-            textureHeight = 1024;
-            time = 0.0f;
-            minDistance = 100.0f;
-            maxDistance = 1000.0f;
-            minLog2TessFactor = 1.0f;
-            maxLog2TessFactor = 5.0f;
-            drawWires = false;
-            drawNormal = false;
-            applyAnglecorrection = false;
-            hold = false;
-            sizeTerrain = 2000.0f;
-            sqrtNumberOfPatchs = 8;
 
-            window = new DirectX.MainWindow();
+            if(window == null)
+            {
+                window = new DirectX.MainWindow();
+                window.Owner = Window.GetWindow(this);
+
+                textureWidth = 1024;
+                textureHeight = 1024;
+                time = 0.0f;
+                minDistance = 100.0f;
+                maxDistance = 1000.0f;
+                minLog2TessFactor = 1.0f;
+                maxLog2TessFactor = 5.0f;
+                drawWires = false;
+                drawNormal = false;
+                applyAnglecorrection = false;
+                hold = false;
+                sizeTerrain = 2000.0f;
+                sqrtNumberOfPatchs = 8;
+            }
 
             window.Show();
 

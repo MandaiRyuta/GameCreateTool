@@ -4,6 +4,7 @@
 
 extern "C" {
 	__declspec(dllexport) void Initialize(HWND hwnd, int size_x, int size_y);
+	__declspec(dllexport) void Reset(HWND hwnd, int size_x, int size_y);
 	__declspec(dllexport) void Run(void);
 	__declspec(dllexport) void Finalize(void);
 
