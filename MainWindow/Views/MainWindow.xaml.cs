@@ -21,58 +21,79 @@ namespace ZuneLikeWindow.Views
 	/// <summary>
 	/// MainWindow.xaml の相互作用ロジック
 	/// </summary>
-	public partial class MainWindow : Window
-	{
-        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
-        private extern static int add(int a, int b);
-
-        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void Initialize(IntPtr hwnd, int size_x, int size_y);
-
-        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void Run();
-        
-        DispatcherTimer dispatcherTimer;
-
-        public MainWindow()
-		{
-			this.InitializeComponent();
-
-			this.MouseLeftButtonDown += (sender, e) => this.DragMove();
-
-           UIElement hoge = null;
-            //var asm = System.Reflection.Assembly.LoadFrom("../../TerrainCreater.dll");
-            var asm = System.Reflection.Assembly.LoadFrom("../../TerrainCreater.dll");
-
-            foreach (var t in asm.GetTypes())
-            {
-                if (t.IsInterface) continue;
-                hoge = Activator.CreateInstance(t) as UIElement;
-                if (hoge != null)
-                {
-                    break;
-                }
-            }
-
-            if (hoge != null)
-            {
-                this.ToolArea.Children.Add(hoge);
-                //byte[] n = { 0, 3, 5 };
-                //hoge.ProcessCommand(n, 3);
-                //hoge.
-            }
-            else
-            {
-
-            }
-            
-            
-        
+    /// 
+    public class ToolInfo
+    {
+        public ToolInfo(Type _type, ImageSource _imgSrc)
+        {
+            type = _type;
+            imgSrc = _imgSrc;
         }
 
-        private void Run(object sender, EventArgs e)
+        public Type type;
+        public ImageSource imgSrc;
+    }
+    
+	public partial class MainWindow : Window
+	{
+        List<ToolInfo> toolList;
+        CloseTab toolTabs;
+
+        public MainWindow()
         {
-            Run();
+            this.InitializeComponent();
+
+            this.MouseLeftButtonDown += (sender, e) => this.DragMove();
+
+            this.Loaded += (s, e) => this.OnActivated();
+        }
+
+        private void OnActivated()
+        {
+            toolTabs = new CloseTab(ToolArea);
+
+            this.toolTabArea.Children.Add(toolTabs);
+
+            toolList = new List<ToolInfo>();
+
+            string[] files = System.IO.Directory.GetFiles(@"../../Plugins/", "*.dll", System.IO.SearchOption.AllDirectories);
+
+            
+
+            foreach (var file in files)
+            {
+                var asm = System.Reflection.Assembly.LoadFrom(file);
+
+                foreach (var t in asm.GetTypes())
+                {
+                    if (t.IsInterface) continue;
+                    if (!t.IsSubclassOf(typeof(UserControl))) continue;
+                    UserControl hoge = Activator.CreateInstance(t) as UserControl;
+                    if (hoge != null)
+                    {
+                        var path = file;
+                        var icon = System.Drawing.Icon.ExtractAssociatedIcon(path);
+                        var source = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+                        Image img = new Image();
+                        img.Source = source;
+                        img.Stretch = Stretch.Fill;
+                        ToolIcon ti = new ToolIcon(img);
+                        ti.ImagePanel.Click += (s, e) => RunTool(0);
+                        IconList.Children.Add(ti);
+
+                        toolList.Add(new ToolInfo(t, source));
+
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        private void RunTool(int index)
+        {
+            toolTabs.AddTab(Activator.CreateInstance(toolList[index].type) as UserControl, toolList[index].imgSrc);
         }
 
         private void HideButtonClick(object sender, RoutedEventArgs e)
@@ -83,16 +104,6 @@ namespace ZuneLikeWindow.Views
         private void MaximizeButtonClick(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Maximized;
-
-            HwndSource source = (HwndSource)HwndSource.FromVisual(this);
-
-            IntPtr handle = source.Handle;
-
-            Initialize(handle, 1280, 720);
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(Run);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
-            dispatcherTimer.Start();
         }
 
         private void MinimizeButtonClick(object sender, RoutedEventArgs e)

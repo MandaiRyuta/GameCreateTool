@@ -24,22 +24,44 @@ namespace ZuneLikeWindow
     public partial class CloseTabItem : UserControl
     {
         private CloseTab parent;
-        //private StackPanel child;
+        private UserControl child;
 
-        public CloseTabItem(CloseTab _parent, string name = "New Tab")
+        public CloseTabItem(CloseTab _parent, UserControl uc, ImageSource ImgSrc, string name = "New Tab")
         {
             InitializeComponent();
 
             parent = _parent;
 
-            tabText.Text = name;
+            this.TabText.Text = name;
 
+            child = uc;
 
+            this.SelfImg.Source = ImgSrc;
+
+            this.MouseLeftButtonDown += (s, e) => Active();
         }
 
         private void RemoveTab(object sender, RoutedEventArgs e)
         {
             parent.RemoveTab(this);
+        }
+
+        public void Active()
+        {
+            if(this.parent.activeTab != null)
+                this.parent.activeTab.Desactive();
+
+            this.parent.activeTab = this;
+
+            this.Inner.Background = Brushes.White;
+
+            this.parent.toolArea.Children.Clear();
+            this.parent.toolArea.Children.Add(this.child);
+        }
+
+        private void Desactive()
+        {
+            this.Inner.Background = Brushes.LightSlateGray;
         }
     }
 }

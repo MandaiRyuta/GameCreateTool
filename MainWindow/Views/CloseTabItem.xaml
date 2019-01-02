@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:ZuneLikeWindow"
              mc:Ignorable="d">
     <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderThickness="3" CornerRadius="2,2,2,2" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
-        <StackPanel Orientation="Horizontal">
-            <Image Width="16" Height="16" Margin="3, 0"></Image>
-            <TextBlock Name="tabText" Text="Error" Width="auto" Height="16" HorizontalAlignment="Left" Margin="3,5"  FontFamily="Meiryo UI"/>
+        <StackPanel Orientation="Horizontal" x:Name="Inner">
+            <Image x:Name="SelfImg" Width="16" Height="16" Margin="3, 0"></Image>
+            <TextBlock x:Name="TabText" Text="Error" Width="auto" Height="16" HorizontalAlignment="Left" Margin="3,5"  FontFamily="Meiryo UI"/>
             <Button Content="×" Click="RemoveTab" HorizontalAlignment="Right" VerticalAlignment="Center" Width="16" Height="16" Margin="3,0" FontFamily="Meiryo UI" FontSize="8"/>
         </StackPanel>
     </Border>

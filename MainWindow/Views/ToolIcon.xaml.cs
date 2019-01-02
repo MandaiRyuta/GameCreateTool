@@ -13,17 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TerrainCreater
+namespace ZuneLikeWindow
 {
     /// <summary>
-    /// Export.xaml の相互作用ロジック
+    /// ToolIcon.xaml の相互作用ロジック
     /// </summary>
-    public partial class Export : UserControl
+    public partial class ToolIcon : UserControl
     {
-        public Export()
+        public ToolIcon(Image image)
         {
             InitializeComponent();
 
+            this.InnerImagePanel.Children.Add(image);
         }
     }
 }

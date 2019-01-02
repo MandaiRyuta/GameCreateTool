@@ -33,40 +33,35 @@ namespace ZuneLikeWindow
         private extern static void Run();
 
         private CloseTabItemCollection tabs;
-        public StackPanel child = null;
-        private DispatcherTimer dispatcherTimer;
+        public CloseTabItem activeTab;
+        public StackPanel toolArea;
 
-        public CloseTab()
+        public CloseTab(StackPanel _toolArea)
         {            
             InitializeComponent();
 
             tabs = new CloseTabItemCollection();
+
+            toolArea = _toolArea;
         }
 
         private void AddTab(object sender, RoutedEventArgs e)
         {
-            CloseTabItem tab = new CloseTabItem(this);
+            //CloseTabItem tab = new CloseTabItem(this);
 
-            tabs.Add(tab);
-            closeableTabs.Children.Add(tab);
+            //tabs.Add(tab);
+            //closeableTabs.Children.Add(tab);
 
-            Window window = new Window1();
-            window.Show();
-
-            HwndSource source = (HwndSource)HwndSource.FromVisual(window);
-
-            IntPtr handle = source.Handle;
-
-            Initialize(handle, 1280, 720);
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(Run);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
-            dispatcherTimer.Start();
+            //activeTab = tab;
         }
 
-        private void Run(object sender, EventArgs e)
+        public void AddTab(UserControl uc, ImageSource imgSrc)
         {
-            Run();
+            CloseTabItem tab = new CloseTabItem(this, uc, imgSrc);
+        
+            tabs.Add(tab);
+            closeableTabs.Children.Add(tab);
+            tab.Active();
         }
 
         public void RemoveTab(CloseTabItem tab)

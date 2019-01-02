@@ -37,7 +37,7 @@ namespace DirectX
             
             this.MouseLeftButtonDown += (sender, e) => this.DragMove();
 
-            Activated += (s, e) => OnActivated();
+            this.Activated += (s, e) => OnActivated();
         }
 
         private void Run(object sender, EventArgs e)
