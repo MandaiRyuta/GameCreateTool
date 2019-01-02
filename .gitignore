@@ -1,4 +1,4 @@
-*.pbd
+*.pdb
 *.exe
 *.dll
 *.log
@@ -6,3 +6,5 @@
 *.cache
 *.db
 *.ipch
+*.pch
+*.lib

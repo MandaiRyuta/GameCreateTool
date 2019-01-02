@@ -16,6 +16,23 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
+public static class ObjectExtension
+{
+    // ディープコピーの複製を作る拡張メソッド
+    public static T DeepClone<T>(this T src)
+    {
+        using (var memoryStream = new System.IO.MemoryStream())
+        {
+            var binaryFormatter
+              = new System.Runtime.Serialization
+                    .Formatters.Binary.BinaryFormatter();
+            binaryFormatter.Serialize(memoryStream, src); // シリアライズ
+            memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+            return (T)binaryFormatter.Deserialize(memoryStream); // デシリアライズ
+        }
+    }
+}
+
 namespace ZuneLikeWindow.Views
 {
 	/// <summary>
@@ -36,16 +53,15 @@ namespace ZuneLikeWindow.Views
     
 	public partial class MainWindow : Window
 	{
-        DispatcherTimer dispatcherTimer;
         List<ToolInfo> toolList;
         CloseTab toolTabs;
 
         public MainWindow()
-		{
-			this.InitializeComponent();
+        {
+            this.InitializeComponent();
 
-			this.MouseLeftButtonDown += (sender, e) => this.DragMove();
-            
+            this.MouseLeftButtonDown += (sender, e) => this.DragMove();
+
             this.Loaded += (s, e) => this.OnActivated();
         }
 
@@ -58,35 +74,36 @@ namespace ZuneLikeWindow.Views
             toolList = new List<ToolInfo>();
 
             string[] files = System.IO.Directory.GetFiles(@"../../Plugins/", "*.dll", System.IO.SearchOption.AllDirectories);
-            
+
+            int cnt = 0;
             foreach (var file in files)
             {
                 var asm = System.Reflection.Assembly.LoadFrom(file);
 
-                foreach (var t in asm.GetTypes())
+                foreach (Type t in asm.GetTypes())
                 {
                     if (t.IsInterface) continue;
-                    if (!t.IsSubclassOf(typeof(UserControl))) continue;
+                    if (t.BaseType != typeof(UserControl)) continue;
+                    if (t.Name != "Export") continue;
+
                     UserControl hoge = Activator.CreateInstance(t) as UserControl;
-                    if (hoge != null)
-                    {
-                        var path = file;
-                        var icon = System.Drawing.Icon.ExtractAssociatedIcon(path);
-                        var source = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
-                        Image img = new Image();
-                        img.Source = source;
-                        img.Stretch = Stretch.Fill;
-                        ToolIcon ti = new ToolIcon(img);
-                        ti.ImagePanel.Click += (s, e) => RunTool(0);
-                        IconList.Children.Add(ti);
+                    var path = file;
+                    var icon = System.Drawing.Icon.ExtractAssociatedIcon(path);
+                    var source = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
-                        toolList.Add(new ToolInfo(t, source));
+                    Image img = new Image();
+                    img.Source = source;
+                    img.Stretch = Stretch.Fill;
+                    ToolIcon ti = new ToolIcon(img);
+                    int n = cnt;
+                    cnt++;
+                    ti.ImagePanel.Click += (s, e) => RunTool(n);
+                    IconList.Children.Add(ti);
+                    toolList.Add(new ToolInfo(t, source));
 
-                        break;
-                    }
+                    break;
                 }
-
             }
         }
 

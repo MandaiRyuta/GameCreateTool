@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\MainWindow\</OutputPath>
+    <OutputPath>..\MainWindow\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -135,6 +135,10 @@
     <ProjectReference Include="..\DirectX\DirectX.csproj">
       <Project>{6440821f-0593-4907-a91a-5a18110dd5eb}</Project>
       <Name>DirectX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginInterface\PluginInterface.csproj">
+      <Project>{d24ca5ce-2675-4415-b1d7-2f00e2287980}</Project>
+      <Name>PluginInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

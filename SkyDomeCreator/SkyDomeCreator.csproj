@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\MainWindow\</OutputPath>
+    <OutputPath>..\MainWindow\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -70,12 +70,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Geometry.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Export.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Geometry.xaml.cs">
-      <DependentUpon>Geometry.xaml</DependentUpon>
+    <Compile Include="Export.xaml.cs">
+      <DependentUpon>Export.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +101,16 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DirectX\DirectX.csproj">
+      <Project>{6440821f-0593-4907-a91a-5a18110dd5eb}</Project>
+      <Name>DirectX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginInterface\PluginInterface.csproj">
+      <Project>{d24ca5ce-2675-4415-b1d7-2f00e2287980}</Project>
+      <Name>PluginInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
