@@ -239,7 +239,7 @@ SkyDomeManager::~SkyDomeManager()
 void SkyDomeManager::initialize()
 {
 	//Cylinder(10.0f, 10.0f, 20);
-	//Sphere(10.0f, 15);
+	Sphere(10.0f, 15);
 	//Cube({ 10.0f,10.0f,10.0f });
 }
 

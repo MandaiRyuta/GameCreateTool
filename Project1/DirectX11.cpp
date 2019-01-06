@@ -90,15 +90,31 @@ void DirectX11::clearDepthStencil(const std::vector<DepthStencilID>& depth_stenc
 		context_->ClearDepthStencilView(depth_stencil_db_.Get(id)->dsv_.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-void DirectX11::setMesh(const MeshID mesh_id)
+void DirectX11::setMesh(const MeshID mesh_id, const UINT& InstancingCount)
 {
 	auto& mesh = mesh_db_.Get(mesh_id);
-	unsigned int stride = sizeof(Vertex);
+	unsigned int stride;
+	if (InstancingCount <= 1)
+	{
+		stride = sizeof(Vertex);
+	}
+	else
+	{
+		stride = sizeof(PolygonTextureUVSet);
+	}
 	unsigned int offset = 0;
 	context_->IASetPrimitiveTopology(k_topology_s[static_cast<unsigned int>(mesh->topology_)]);
 	context_->IASetVertexBuffers(0,1,mesh->vertex_buffer_.GetAddressOf(), &stride, &offset);
 	context_->IASetIndexBuffer(mesh->index_buffer_.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
-	context_->DrawIndexed(mesh->index_cnt_, 0, 0);
+	
+	if (InstancingCount <= 1)
+	{
+		context_->DrawIndexed(mesh->index_cnt_, 0, 0);
+	}
+	else
+	{
+		context_->DrawIndexedInstanced(mesh->index_cnt_, InstancingCount, 0, 0, 0);
+	}
 }
 
 void DirectX11::setRenderTargetAndDepthStencil(const std::vector<RenderTargetID>& render_target_id_s, const DepthStencilID & depth_stencil_id)
@@ -208,7 +224,7 @@ void DirectX11::setRasterizer(const RasterizerID & rasterizer_id)
 }
 
 void DirectX11::setEyeposition(const math::float3 & eyeposition)
-{
+{	
 	per_camera_cb_.eye_position_ = eyeposition;
 }
 
@@ -546,6 +562,44 @@ void DirectX11::createMesh(const MeshID & mesh_id, const IndexCollection & indic
 	return mesh_db_.Load(mesh_id, mesh);
 }
 
+void DirectX11::createTextureMesh(const MeshID & mesh_id, const IndexCollection & indices, const VertexCollectionUV & vertices, const Topology & topology)
+{
+	Microsoft::WRL::ComPtr<ID3D11Device> device;
+	context_->GetDevice(device.GetAddressOf());
+
+	auto mesh = std::make_unique<Mesh>();
+
+	{
+		mesh->vertex_cnt_ = vertices.size();
+		D3D11_BUFFER_DESC bd = {};
+		bd.ByteWidth = mesh->vertex_cnt_ * sizeof(PolygonTextureUVSet);
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd.Usage = D3D11_USAGE_DEFAULT;
+
+		D3D11_SUBRESOURCE_DATA sd = {};
+		sd.pSysMem = vertices.data();
+
+		device->CreateBuffer(&bd, &sd, mesh->vertex_buffer_.GetAddressOf());
+	}
+
+	{
+		mesh->index_cnt_ = indices.size();
+		D3D11_BUFFER_DESC bd = {};
+		bd.ByteWidth = mesh->index_cnt_ * sizeof(Index);
+		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bd.Usage = D3D11_USAGE_DEFAULT;
+
+		D3D11_SUBRESOURCE_DATA sd = {};
+		sd.pSysMem = indices.data();
+
+		device->CreateBuffer(&bd, &sd, mesh->index_buffer_.GetAddressOf());
+	}
+
+	mesh->topology_ = topology;
+
+	return mesh_db_.Load(mesh_id, mesh);
+}
+
 void DirectX11::releaseRenderTarget(const RenderTargetID & render_target_id)
 {
 	render_target_db_.Unload(render_target_id);
@@ -584,6 +638,71 @@ void DirectX11::releaseBlend(const BlendID & blend_id)
 void DirectX11::releaseMesh(const MeshID & mesh_id)
 {
 	mesh_db_.Unload(mesh_id);
+}
+
+void DirectX11::InitCamera(const math::float3 & eye, const math::float3 & at, const math::float3 & up)
+{
+	DefaultForward = math::float3(0.0f, 0.0f, 1.0f);
+	DefaultRight = math::float3(1.0f, 0.0f, 0.0f);
+	CameraForward = math::float3(0.0f, 0.0f, 1.0f);
+	CameraRight = math::float3(1.0f, 0.0f, 0.0f);
+	moveLeftRight = 0.0f;
+	moveBackForward = 0.0f;
+	CameraYaw = 0.0f;
+	CameraPitch = 0.0f;
+
+	CameraPosition = eye;
+	Target = at;
+	CameraUp = up;
+}
+
+void DirectX11::UpdateCamera()
+{
+	CameraRotation = math::matrix::CreateFromYawPitchRoll(CameraYaw, CameraPitch, 0);
+
+	Target = DirectX::XMVector3TransformCoord(DefaultForward, CameraRotation);
+	Target = DirectX::XMVector3Normalize(Target);
+
+	//math::matrix RotateYTempMatrix;
+	//RotateYTempMatrix = DirectX::XMMatrixRotationY(CameraYaw);
+
+	//CameraRight = XMVector3TransformCoord(DefaultRight, RotateYTempMatrix);
+	//CameraUp = XMVector3TransformCoord(CameraUp, RotateYTempMatrix);
+	//CameraForward = XMVector3TransformCoord(DefaultForward, RotateYTempMatrix);
+
+	CameraRight = DirectX::XMVector3TransformCoord(DefaultRight, CameraRotation);
+	CameraForward = DirectX::XMVector3TransformCoord(DefaultForward, CameraRotation);
+	CameraUp = DirectX::XMVector3Cross(CameraForward, CameraRight);
+
+	CameraPosition += moveLeftRight * CameraRight;
+	CameraPosition += moveBackForward * CameraForward;
+
+	moveLeftRight = 0.0f;
+	moveBackForward = 0.0f;
+
+	Target = CameraPosition + Target;
+
+	per_camera_cb_.view_ = DirectX::XMMatrixLookAtLH(CameraPosition, Target, CameraUp);
+}
+
+void DirectX11::CameraChangePitch(float move_amount)
+{
+	CameraPitch += move_amount;
+}
+
+void DirectX11::CameraChangeYaw(float move_amount)
+{
+	CameraYaw += move_amount;
+}
+
+void DirectX11::CameraChangeSide(float move_amount)
+{
+	moveLeftRight += move_amount;
+}
+
+void DirectX11::CameraChangeUpDown(float move_amount)
+{
+	moveBackForward += move_amount;
 }
 
 void DirectX11::present(void)

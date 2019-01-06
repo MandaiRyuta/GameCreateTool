@@ -64,13 +64,31 @@ namespace DirectX
         private extern static void SetOcean(uint texture_width, uint texture_height, float time, float min_distance, float max_distance, float min_log2tessfactor, float max_log2tessfactor, bool draw_wires, bool draw_normal, bool apply_anglecorrection, bool hold, float size_terrain, uint sqrt_number_of_patchs);
 
         [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void OceanSetView();
+        private extern static void DefaultSetView(float eye_x, float eye_y, float eye_z, float at_x, float at_y, float at_z, float up_x, float up_y, float up_z);
 
         [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
-        private extern static void DefaultSetView();
+        private extern static void CameraInit(float eye_x, float eye_y, float eye_z, float at_x, float at_y, float at_z, float up_x, float up_y, float up_z);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CameraChangePitch(float move_amount);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CameraChangeYaw(float move_amount);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CameraChangeSide(float move_amount);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CameraChangeUpDown(float move_amount);
+
+        [DllImport("exporter.dll", CallingConvention = CallingConvention.Cdecl)]
+        private extern static void CameraUpdate();
+
+        
 
         private DispatcherTimer dispatcherTimer = null;
 
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -185,14 +203,40 @@ namespace DirectX
             SetOcean(texture_width, texture_height, time, min_distance, max_distance, min_log2tessfactor, max_log2tessfactor, draw_wires, draw_normal, apply_anglecorrection, hold, size_terrain, sqrt_number_of_patchs);
         }
 
-        public void ExOceanSetView()
+        public void ExDefaultSetView(float eye_x, float eye_y, float eye_z, float at_x, float at_y, float at_z, float up_x, float up_y, float up_z)
         {
-            OceanSetView();
+            DefaultSetView(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z);
         }
 
-        public void ExDefaultSetView()
+        public void ExInitCamera(float eye_x, float eye_y, float eye_z, float at_x, float at_y, float at_z, float up_x, float up_y, float up_z)
         {
-            DefaultSetView();
+            CameraInit(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z);
         }
+
+        public void ExCameraUpdate()
+        {
+            CameraUpdate();
+        }
+
+        public void ExCameraChangeYaw(float move_amount)
+        {
+            CameraChangeYaw(move_amount);
+        }
+
+        public void ExCameraChangePitch(float move_amount)
+        {
+            CameraChangePitch(move_amount);
+        }
+
+        public void ExCameraChangeSide(float move_amount)
+        {
+            CameraChangeSide(move_amount);
+        }
+
+        public void ExCameraChangeUpDown(float move_amount)
+        {
+            CameraChangeUpDown(move_amount);
+        }
+        
     }
 }

@@ -26,9 +26,21 @@ using BlendState = Microsoft::WRL::ComPtr<ID3D11BlendState>;
 using RasterizerState = Microsoft::WRL::ComPtr<ID3D11RasterizerState>;
 
 using Vertex = math::float3;
+using TextureUV = math::float2;
 using Index = unsigned int;
-
 using VertexCollection = std::vector<Vertex>;
+struct PolygonTextureUVSet
+{
+	math::float3 position;
+	math::float2 uv;
+
+	PolygonTextureUVSet(math::float3 _pos, math::float2 _uv)
+	{
+		position = _pos;
+		uv = _uv;
+	}
+};
+using VertexCollectionUV = std::vector<PolygonTextureUVSet>;
 using IndexCollection = std::vector<Index>;
 
 enum class Topology

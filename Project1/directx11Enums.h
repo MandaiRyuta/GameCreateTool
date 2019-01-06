@@ -26,6 +26,8 @@ enum class SamplerID
 enum class BlendID
 {
 	Null,
+	AlphaADD,
+	AlphaINV,
 };
 
 enum class RasterizerID
@@ -56,6 +58,7 @@ enum class TextureID
 	Null,
 	WaterBump,
 	CloudyWave,
+	EffectParticle,
 };
 
 enum class DescFormat

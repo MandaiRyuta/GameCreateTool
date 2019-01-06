@@ -30,7 +30,7 @@ public:
 public:
 	void clearRenderTarget(const std::vector<RenderTargetID> & render_target_id_s, const math::color & color);
 	void clearDepthStencil(const std::vector<DepthStencilID> & depth_stencil_id_s);
-	void setMesh(const MeshID mesh_id);
+	void setMesh(const MeshID mesh_id, const UINT& InstancingCount = 0);
 	void setRenderTargetAndDepthStencil(const std::vector<RenderTargetID> & render_target_id_s, const DepthStencilID & depth_stencil_id);
 	void setViewPort(const std::vector<ViewPortID> & view_port_id_s);
 	void setShaderResourceFromRenderTarget(const int & start_slot, const std::vector<RenderTargetID> & render_target_id_s);
@@ -49,7 +49,7 @@ public:
 	void updatePerMeshConstantBuffer(void);
 	void updatePerCameraConstantBuffer(void);
 	void present(void);
-
+	//void CameraZoom(math::float3 move, float length);
 public:
 	template<class _Type> _Type * getShaderVariable(const ShaderID & shader_id, const std::string & variable_name)
 	{
@@ -57,7 +57,6 @@ public:
 	}
 private:
 	void * getShaderVariable(const ShaderID & shader_id, const std::string & variable_name);
-
 public:
 	void createRenderTarget(const RenderTargetID & render_target_id, const DescFormat & format, const math::float2 & size);
 	void createDepthStencil(const DepthStencilID & depth_stencil_id, const math::float2 & size);
@@ -69,6 +68,7 @@ public:
 	void createRasterizer(const RasterizerID & rasterizer_id, const CullMode & cull_mode, const FillMode & fill_mode);
 	void createMesh(const MeshID & mesh_id, const std::string & file_name);
 	void createMesh(const MeshID & mesh_id, const IndexCollection & indices, const VertexCollection & vertices, const Topology & topology = Topology::TriangleList);
+	void createTextureMesh(const MeshID & mesh_id, const IndexCollection & indices, const VertexCollectionUV & vertices, const Topology & topology = Topology::TriangleList);
 	void releaseRenderTarget(const RenderTargetID & render_target_id);
 	void releaseDepthStencil(const DepthStencilID & depth_stencil_id);
 	void releaseViewPort(const ViewPortID & view_port_id);
@@ -77,7 +77,13 @@ public:
 	void releaseSampler(const SamplerID & sampler_id);
 	void releaseBlend(const BlendID & blend_id);
 	void releaseMesh(const MeshID & mesh_id);
-
+	void InitCamera(const math::float3& eye, const math::float3& at, const math::float3& up);
+	void UpdateCamera();
+	void CameraChangePitch(float move_amount);
+	void CameraChangeYaw(float move_amount);
+	void CameraChangeSide(float move_amount);
+	void CameraChangeUpDown(float move_amount);
+	void IndexedInstancingDraw(const UINT& IdxNumCount, const UINT& InstanceCount);
 private:
 	Context context_;
 	SwapChain swap_chain_;
@@ -91,7 +97,20 @@ private:
 	ConstantBuffer per_mesh_constant_buffer_;
 	PerCameraCB per_camera_cb_;
 	PerMeshCB per_mesh_cb_;
+	math::float3 DefaultForward;
+	math::float3 DefaultRight;
+	math::float3 CameraForward;
+	math::float3 CameraRight;
+	math::matrix CameraRotation;
+	math::matrix groundWorld;
+	math::float3 Target;
+	math::float3 CameraUp;
+	math::float3 CameraPosition;
+	float moveLeftRight;
+	float moveBackForward;
 
+	float CameraYaw;
+	float CameraPitch;
 private:
 	ResourcePool<RenderTarget, RenderTargetID> render_target_db_;
 	ResourcePool<DepthStencil, DepthStencilID> depth_stencil_db_;

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Xceed.Wpf.Toolkit;
 
 namespace TerrainCreater
@@ -24,6 +25,7 @@ namespace TerrainCreater
     {
         DirectX.MainWindow window = null;
 
+        private DispatcherTimer dispatchertimer;
         public uint Terrain_div_x;
         public uint Terrain_div_y;
         public float Terrain_Frequency;
@@ -31,13 +33,122 @@ namespace TerrainCreater
         public float Terrain_size_x;
         public float Terrain_size_y;
 
+        float moveAddX, moveAddZ;
+        float moveMinusX, moveMinusZ;
+        float rot_x01,rot_x02, rot_y01,rot_y02;
+
         public Export()
         {
-            InitializeComponent();
-
             Loaded += (s, e) => OnLoad();
 
             Unloaded += (s, e) => OnUnLoad();
+
+            rot_x01 = 0.0f;
+            rot_y01 = 0.0f;
+            rot_x02 = 0.0f;
+            rot_y02 = 0.0f;
+
+            moveAddX = 0.0f;
+            moveAddZ = 0.0f;
+            moveMinusX = 0.0f;
+            moveMinusZ = 0.0f;
+
+            dispatchertimer = new DispatcherTimer();
+            dispatchertimer.Tick += new EventHandler(Run);
+            dispatchertimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
+            dispatchertimer.Start();
+        }
+
+        private void Run(object sender, EventArgs e)
+        {
+            if (Keyboard.GetKeyStates(Key.W) == KeyStates.Down)
+            {
+                moveAddZ = 0.5f;
+            }
+            else
+            {
+                moveAddZ = 0.0f;
+            }
+
+            if (Keyboard.GetKeyStates(Key.A) == KeyStates.Down)
+            {
+                moveMinusX = -0.5f;
+            }
+            else
+            {
+                moveMinusX = 0.0f;
+            }
+
+            if (Keyboard.GetKeyStates(Key.D) == KeyStates.Down)
+            {
+                moveAddX = 0.5f;
+            }
+            else
+            {
+                moveAddX = 0.0f;
+            }
+
+
+            if (Keyboard.GetKeyStates(Key.S) == KeyStates.Down)
+            {
+                moveMinusZ = -0.5f;
+            }
+            else
+            {
+                moveMinusZ = 0.0f;
+            }
+
+            if(Keyboard.GetKeyStates(Key.Right) == KeyStates.Down)
+            {
+                rot_y01 = (float)Math.Cos(5.0f);
+                if (window != null)
+                    window.ExCameraChangeYaw(rot_y01);
+            }
+            else
+            {
+                rot_y01 = 0.0f;
+            }
+
+            if(Keyboard.GetKeyStates(Key.Left) == KeyStates.Down)
+            {
+                rot_y02 = -(float)Math.Cos(5.0f);
+                if(window != null)
+                    window.ExCameraChangeYaw(rot_y02);
+            }
+            else
+            {
+                rot_y02 = 0.0f;
+            }
+
+            if(Keyboard.GetKeyStates(Key.Up) == KeyStates.Down)
+            {
+                rot_x01 = -(float)Math.Cos(5.0f);
+                if (window != null)
+                    window.ExCameraChangePitch(rot_x01);
+            }
+            else
+            {
+                rot_x01 = 0.0f;
+            }
+
+            if(Keyboard.GetKeyStates(Key.Down) == KeyStates.Down)
+            {
+                rot_x02 = (float)Math.Cos(5.0f);
+                if (window != null)
+                    window.ExCameraChangePitch(rot_x02);
+            }
+            else
+            {
+                rot_x02 = 0.0f;
+            }
+            if(window != null)
+            {
+                float axisZ = moveMinusZ + moveAddZ;
+                float axisX = moveMinusX + moveAddX;
+                window.ExCameraChangeSide(axisX);
+                window.ExCameraChangeUpDown(axisZ);
+                window.ExCameraUpdate();
+            }
         }
 
         private void OnUnLoad()
@@ -52,7 +163,6 @@ namespace TerrainCreater
             {
                 window = new DirectX.MainWindow();
                 window.Owner = Window.GetWindow(this);
-
                 Terrain_div_x = 100;
                 Terrain_div_y = 100;
                 Terrain_Frequency = 0.0f;
@@ -63,9 +173,11 @@ namespace TerrainCreater
 
             window.Show();
 
-            window.ExDefaultSetView();
-
             window.ExCreateTerrain(Terrain_div_x, Terrain_div_y, Terrain_Frequency, Terrain_height, Terrain_size_x, Terrain_size_y);
+
+            if (window != null)
+                window.ExInitCamera(0.0f, 15.0f, -10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+
         }
 
         private void WidthChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

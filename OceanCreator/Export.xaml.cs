@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Xceed.Wpf.Toolkit;
 
 namespace OceanCreator
@@ -23,6 +24,7 @@ namespace OceanCreator
     {
         DirectX.MainWindow window = null;
 
+        private DispatcherTimer dispatchertimer;
         uint textureWidth;
         uint textureHeight;
         float time;
@@ -37,6 +39,10 @@ namespace OceanCreator
         float sizeTerrain;
         uint sqrtNumberOfPatchs;
 
+        float moveAddX, moveAddZ;
+        float moveMinusX, moveMinusZ;
+        float rot_x01, rot_x02, rot_y01, rot_y02;
+
         public Export()
         {
             InitializeComponent();
@@ -44,6 +50,113 @@ namespace OceanCreator
             Loaded += (s, e) => OnLoad();
 
             Unloaded += (s, e) => OnUnLoad();
+
+            rot_x01 = 0.0f;
+            rot_y01 = 0.0f;
+            rot_x02 = 0.0f;
+            rot_y02 = 0.0f;
+
+            moveAddX = 0.0f;
+            moveAddZ = 0.0f;
+            moveMinusX = 0.0f;
+            moveMinusZ = 0.0f;
+
+            dispatchertimer = new DispatcherTimer();
+            dispatchertimer.Tick += new EventHandler(Run);
+            dispatchertimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
+            dispatchertimer.Start();
+        }
+
+        private void Run(object sender, EventArgs e)
+        {
+            if (Keyboard.GetKeyStates(Key.W) == KeyStates.Down)
+            {
+                moveAddZ = 0.5f;
+            }
+            else
+            {
+                moveAddZ = 0.0f;
+            }
+
+            if (Keyboard.GetKeyStates(Key.A) == KeyStates.Down)
+            {
+                moveMinusX = -0.5f;
+            }
+            else
+            {
+                moveMinusX = 0.0f;
+            }
+
+            if (Keyboard.GetKeyStates(Key.D) == KeyStates.Down)
+            {
+                moveAddX = 0.5f;
+            }
+            else
+            {
+                moveAddX = 0.0f;
+            }
+
+
+            if (Keyboard.GetKeyStates(Key.S) == KeyStates.Down)
+            {
+                moveMinusZ = -0.5f;
+            }
+            else
+            {
+                moveMinusZ = 0.0f;
+            }
+
+            if (Keyboard.GetKeyStates(Key.Right) == KeyStates.Down)
+            {
+                rot_y01 = (float)Math.Cos(5.0f);
+                if (window != null)
+                    window.ExCameraChangeYaw(rot_y01);
+            }
+            else
+            {
+                rot_y01 = 0.0f;
+            }
+
+            if (Keyboard.GetKeyStates(Key.Left) == KeyStates.Down)
+            {
+                rot_y02 = -(float)Math.Cos(5.0f);
+                if (window != null)
+                    window.ExCameraChangeYaw(rot_y02);
+            }
+            else
+            {
+                rot_y02 = 0.0f;
+            }
+
+            if (Keyboard.GetKeyStates(Key.Up) == KeyStates.Down)
+            {
+                rot_x01 = -(float)Math.Cos(5.0f);
+                if (window != null)
+                    window.ExCameraChangePitch(rot_x01);
+            }
+            else
+            {
+                rot_x01 = 0.0f;
+            }
+
+            if (Keyboard.GetKeyStates(Key.Down) == KeyStates.Down)
+            {
+                rot_x02 = (float)Math.Cos(5.0f);
+                if (window != null)
+                    window.ExCameraChangePitch(rot_x02);
+            }
+            else
+            {
+                rot_x02 = 0.0f;
+            }
+            if (window != null)
+            {
+                float axisZ = moveMinusZ + moveAddZ;
+                float axisX = moveMinusX + moveAddX;
+                window.ExCameraChangeSide(axisX);
+                window.ExCameraChangeUpDown(axisZ);
+                window.ExCameraUpdate();
+            }
         }
 
         private void OnUnLoad()
@@ -77,9 +190,10 @@ namespace OceanCreator
 
             window.Show();
 
-            window.ExOceanSetView();
-
             window.ExCreateOcean(textureWidth, textureHeight, time, minDistance, maxDistance, minLog2TessFactor, maxLog2TessFactor, drawWires, drawNormal, applyAnglecorrection, hold, sizeTerrain, sqrtNumberOfPatchs);
+
+            if (window != null)
+                window.ExInitCamera(0.0f, 15.0f, -10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         }
 
         private void TextureWidthChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

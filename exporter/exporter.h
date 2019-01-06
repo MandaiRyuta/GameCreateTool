@@ -8,10 +8,13 @@ extern "C" {
 	__declspec(dllexport) void Run(void);
 	__declspec(dllexport) void Finalize(void);
 
-	/*OceanSetView*/
-	__declspec(dllexport) void OceanSetView();
-	/*DefaultSetView*/
-	__declspec(dllexport) void DefaultSetView();
+	__declspec(dllexport) void DefaultSetView(float eye_x, float eye_y, float eye_z, float at_x, float at_y, float at_z, float up_x, float up_y, float up_z);
+	__declspec(dllexport) void CameraUpdate();
+	__declspec(dllexport) void CameraInit(float eye_x, float eye_y, float eye_z, float at_x, float at_y, float at_z, float up_x, float up_y, float up_z);
+	__declspec(dllexport) void CameraChangePitch(float move_amount);
+	__declspec(dllexport) void CameraChangeYaw(float move_amount);
+	__declspec(dllexport) void CameraChangeSide(float move_amount);
+	__declspec(dllexport) void CameraChangeUpDown(float move_amount);
 
 	/*Create*/
 	__declspec(dllexport) void CreateTerrain(unsigned int div_x, unsigned int div_y, float frequency, float height, float size_x, float size_y);
